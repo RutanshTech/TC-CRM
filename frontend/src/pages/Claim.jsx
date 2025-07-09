@@ -21,7 +21,7 @@ const Claim = ({ sidebarCollapsed = false }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3000/api/payments/available', {
+      const response = await axios.get('https://tc-crm.vercel.app/api/payments/available', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +38,7 @@ const Claim = ({ sidebarCollapsed = false }) => {
   const fetchUserLeads = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3000/api/leads/assigned', {
+      const response = await axios.get('https://tc-crm.vercel.app/api/leads/assigned', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -65,7 +65,7 @@ const Claim = ({ sidebarCollapsed = false }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:3000/api/payments/${claimingPayment._id}/claim-with-lead`,
+        `https://tc-crm.vercel.app/api/payments/${claimingPayment._id}/claim-with-lead`,
         { leadId },
         {
           headers: {

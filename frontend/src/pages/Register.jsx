@@ -20,7 +20,7 @@ export default function Register() {
       return;
     }
     try {
-      await axios.post("http://localhost:3000/api/auth/register", {
+      await axios.post("https://tc-crm.vercel.app/api/auth/register", {
         name,
         email,
         password,

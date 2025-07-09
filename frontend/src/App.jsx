@@ -41,14 +41,14 @@ function App() {
       try {
         if (user.role === "employee") {
         await axios.patch(
-          "http://localhost:3000/api/employees/status",
+          "https://tc-crm.vercel.app/api/employees/status",
           { status: "offline" },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         } else if (user.role === "operation") {
           // For operations, we can update their status in the operations collection
           await axios.patch(
-            `http://localhost:3000/api/operations/${user.id}/status`,
+            `https://tc-crm.vercel.app/api/operations/${user.id}/status`,
             { status: "offline" },
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -100,7 +100,7 @@ function App() {
           try {
             const token = localStorage.getItem("token");
             await axios.post(
-              "http://localhost:3000/api/employees/self-block",
+              "https://tc-crm.vercel.app/api/employees/self-block",
               { reason: "Inactivity for 30 minutes" },
               { headers: { Authorization: `Bearer ${token}` } }
             );

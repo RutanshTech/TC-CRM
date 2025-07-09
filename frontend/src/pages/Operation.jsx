@@ -83,7 +83,7 @@ const Operation = ({ sidebarCollapsed }) => {
         status: filters.status
       });
 
-      const response = await axios.get(`http://localhost:3000/api/operations?${params}`, {
+      const response = await axios.get(`https://tc-crm.vercel.app/api/operations?${params}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -177,7 +177,7 @@ const Operation = ({ sidebarCollapsed }) => {
       if (editingOperation) {
         // Update operation
         await axios.put(
-          `http://localhost:3000/api/operations/${editingOperation._id}`,
+          `https://tc-crm.vercel.app/api/operations/${editingOperation._id}`,
           {
             name: formData.name,
             email: formData.email
@@ -188,7 +188,7 @@ const Operation = ({ sidebarCollapsed }) => {
       } else {
         // Create operation
         await axios.post(
-          'http://localhost:3000/api/operations',
+          'https://tc-crm.vercel.app/api/operations',
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -214,7 +214,7 @@ const Operation = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/operations/${operationId}`, {
+      await axios.delete(`https://tc-crm.vercel.app/api/operations/${operationId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Operation deleted successfully!');
@@ -253,7 +253,7 @@ const Operation = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:3000/api/operations/${selectedOperation._id}/block`,
+        `https://tc-crm.vercel.app/api/operations/${selectedOperation._id}/block`,
         { reason: blockReason },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -274,7 +274,7 @@ const Operation = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:3000/api/operations/${selectedOperation._id}/unblock`,
+        `https://tc-crm.vercel.app/api/operations/${selectedOperation._id}/unblock`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -299,7 +299,7 @@ const Operation = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.patch(
-        `http://localhost:3000/api/operations/${selectedOperation._id}/reset-password`,
+        `https://tc-crm.vercel.app/api/operations/${selectedOperation._id}/reset-password`,
         { newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );

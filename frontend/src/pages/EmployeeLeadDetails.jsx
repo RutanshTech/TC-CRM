@@ -26,7 +26,7 @@ const EmployeeLeadDetails = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:3000/api/leads/${leadId}`, {
+      const res = await axios.get(`https://tc-crm.vercel.app/api/leads/${leadId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLead(res.data);

@@ -37,7 +37,7 @@ const Leads = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:3000/api/leads/all", {
+      const res = await axios.get("https://tc-crm.vercel.app/api/leads/all", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -93,7 +93,7 @@ const Leads = ({ sidebarCollapsed }) => {
       if (newLead._id) {
         // Edit mode: Update existing lead
         res = await axios.put(
-          `http://localhost:3000/api/leads/${newLead._id}`,
+          `https://tc-crm.vercel.app/api/leads/${newLead._id}`,
           rest,
           {
             headers: {
@@ -105,7 +105,7 @@ const Leads = ({ sidebarCollapsed }) => {
       } else {
         // Add mode: Create new lead
         res = await axios.post(
-          "http://localhost:3000/api/leads/led",
+          "https://tc-crm.vercel.app/api/leads/led",
           newLead,
           {
             headers: {
@@ -132,7 +132,7 @@ const Leads = ({ sidebarCollapsed }) => {
     setSelectedLeadForDetails(null);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:3000/api/leads/${leadId}`, {
+      const res = await axios.get(`https://tc-crm.vercel.app/api/leads/${leadId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSelectedLeadForDetails(res.data);

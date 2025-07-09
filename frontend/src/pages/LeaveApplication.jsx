@@ -25,7 +25,7 @@ const LeaveApplication = ({ sidebarCollapsed }) => {
       console.log('Fetching leave history for employee:', userData?.employeeId);
       
       const response = await axios.get(
-        `http://localhost:3000/api/employees/${userData.employeeId}/leaves`,
+        `https://tc-crm.vercel.app/api/employees/${userData.employeeId}/leaves`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
@@ -109,7 +109,7 @@ const LeaveApplication = ({ sidebarCollapsed }) => {
         token: localStorage.getItem('token') ? 'Present' : 'Missing'
       });
       const response = await axios.post(
-        `http://localhost:3000/api/employees/${user.employeeId}/leave`,
+        `https://tc-crm.vercel.app/api/employees/${user.employeeId}/leave`,
         formData,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );
@@ -141,7 +141,7 @@ const LeaveApplication = ({ sidebarCollapsed }) => {
       const token = localStorage.getItem('token');
       
       await axios.delete(
-        `http://localhost:3000/api/employees/${user.employeeId}/leave/${leaveId}`,
+        `https://tc-crm.vercel.app/api/employees/${user.employeeId}/leave/${leaveId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       

@@ -29,7 +29,7 @@ const DraftingUploadModal = ({ isOpen, onClose, lead, onUploadSuccess }) => {
       if (poaFile) formData.append('poa', poaFile);
       if (uaFile) formData.append('ua', uaFile);
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/api/leads/${lead._id}/upload-drafting`, {
+      const response = await fetch(`https://tc-crm.vercel.app/api/leads/${lead._id}/upload-drafting`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

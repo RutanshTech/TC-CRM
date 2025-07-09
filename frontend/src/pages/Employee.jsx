@@ -14,8 +14,8 @@ function usePresence(employeeId) {
     
     // Determine the correct endpoint based on user role
     const endpoint = user.role === 'employee' 
-      ? 'http://localhost:3000/api/employees/status'
-      : `http://localhost:3000/api/employees/${employeeId}/status`;
+      ? 'https://tc-crm.vercel.app/api/employees/status'
+      : `https://tc-crm.vercel.app/api/employees/${employeeId}/status`;
     
     // Set online on mount
     axios.patch(
@@ -39,13 +39,13 @@ function usePresence(employeeId) {
       if (user.role === 'employee') {
         // For employees, use the new endpoint
         navigator.sendBeacon(
-          'http://localhost:3000/api/employees/status',
+          'https://tc-crm.vercel.app/api/employees/status',
           offlineData
         );
       } else {
         // For admins, use the old endpoint
         navigator.sendBeacon(
-          `http://localhost:3000/api/employees/${employeeId}/status`,
+          `https://tc-crm.vercel.app/api/employees/${employeeId}/status`,
           offlineData
         );
       }
@@ -194,7 +194,7 @@ const Employee = ({ sidebarCollapsed }) => {
       }, 30000); // 30 seconds
 
       // Socket.io setup
-      const socket = io('http://localhost:3000');
+      const socket = io('https://tc-crm.vercel.app');
       socket.on('employeeStatusUpdate', () => {
         fetchEmployees();
       });
@@ -222,7 +222,7 @@ const Employee = ({ sidebarCollapsed }) => {
         })
       });
 
-      const res = await axios.get(`http://localhost:3000/api/employees?${params}`, {
+      const res = await axios.get(`https://tc-crm.vercel.app/api/employees?${params}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -254,7 +254,7 @@ const Employee = ({ sidebarCollapsed }) => {
         return;
       }
       
-      const res = await axios.get('http://localhost:3000/api/leads/distribution', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/distribution', {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Leads from API:', res.data.leads);
@@ -291,7 +291,7 @@ const Employee = ({ sidebarCollapsed }) => {
   const fetchApprovals = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/api/approvals', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/approvals', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setApprovals(res.data);
@@ -304,7 +304,7 @@ const Employee = ({ sidebarCollapsed }) => {
   const fetchLeaveApplications = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/api/employees/leaves/all', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/employees/leaves/all', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setApprovals(prev => ({
@@ -320,7 +320,7 @@ const Employee = ({ sidebarCollapsed }) => {
   const fetchPayments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/api/payments/entries', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/payments/entries', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPayments(res.data.payments);
@@ -334,7 +334,7 @@ const Employee = ({ sidebarCollapsed }) => {
   const fetchAssignedLeads = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/api/leads/assigned', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/assigned', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAssignedLeads(res.data.assignedLeads);
@@ -425,7 +425,7 @@ const Employee = ({ sidebarCollapsed }) => {
       
       if (editingEmployee) {
         await axios.put(
-          `http://localhost:3000/api/employees/${editingEmployee.employeeId}`,
+          `https://tc-crm.vercel.app/api/employees/${editingEmployee.employeeId}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -440,7 +440,7 @@ const Employee = ({ sidebarCollapsed }) => {
         console.log('Sending employee creation request:', requestData);
         
         const response = await axios.post(
-          'http://localhost:3000/api/employees',
+          'https://tc-crm.vercel.app/api/employees',
           requestData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -485,7 +485,7 @@ const Employee = ({ sidebarCollapsed }) => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/employees/${employeeId}`, {
+      await axios.delete(`https://tc-crm.vercel.app/api/employees/${employeeId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Employee deleted successfully');
@@ -523,7 +523,7 @@ const Employee = ({ sidebarCollapsed }) => {
       const token = localStorage.getItem('token');
       
       await axios.post(
-        `http://localhost:3000/api/employees/${selectedEmployee.employeeId}/block`,
+        `https://tc-crm.vercel.app/api/employees/${selectedEmployee.employeeId}/block`,
         { reason: blockReason.trim() },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -549,7 +549,7 @@ const Employee = ({ sidebarCollapsed }) => {
       const token = localStorage.getItem('token');
       
       await axios.post(
-        `http://localhost:3000/api/employees/${selectedEmployee.employeeId}/unblock`,
+        `https://tc-crm.vercel.app/api/employees/${selectedEmployee.employeeId}/unblock`,
         { reason: unblockReason.trim() },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -584,7 +584,7 @@ const Employee = ({ sidebarCollapsed }) => {
       const token = localStorage.getItem('token');
       
       await axios.patch(
-        `http://localhost:3000/api/employees/${selectedEmployee.employeeId}/access`,
+        `https://tc-crm.vercel.app/api/employees/${selectedEmployee.employeeId}/access`,
         { access: accessControlData },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -612,7 +612,7 @@ const Employee = ({ sidebarCollapsed }) => {
       const token = localStorage.getItem('token');
       
       const response = await axios.patch(
-        `http://localhost:3000/api/employees/${selectedEmployee.employeeId}/reset-password`,
+        `https://tc-crm.vercel.app/api/employees/${selectedEmployee.employeeId}/reset-password`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -691,7 +691,7 @@ const Employee = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:3000/api/leads/distribute',
+        'https://tc-crm.vercel.app/api/leads/distribute',
         {
           leadIds: selectedLeads,
           employeeIds: selectedEmployees
@@ -718,7 +718,7 @@ const Employee = ({ sidebarCollapsed }) => {
         const leaveApplication = approvals.leaveApplications.find(app => app.id === id);
         if (leaveApplication) {
           await axios.patch(
-            `http://localhost:3000/api/employees/${leaveApplication.employeeId}/leave/${id}`,
+            `https://tc-crm.vercel.app/api/employees/${leaveApplication.employeeId}/leave/${id}`,
             { status: action === 'approve' ? 'approved' : 'rejected', notes },
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -726,7 +726,7 @@ const Employee = ({ sidebarCollapsed }) => {
       } else {
         // For other approval types, use the general endpoint
         await axios.patch(
-          `http://localhost:3000/api/approvals`,
+          `https://tc-crm.vercel.app/api/approvals`,
           { type, id, action },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -750,7 +750,7 @@ const Employee = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:3000/api/payments/entries',
+        'https://tc-crm.vercel.app/api/payments/entries',
         { amount: parseFloat(paymentAmount) },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -767,7 +767,7 @@ const Employee = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:3000/api/payments/claim/${paymentId}`,
+        `https://tc-crm.vercel.app/api/payments/claim/${paymentId}`,
         { leadId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -910,7 +910,7 @@ const Employee = ({ sidebarCollapsed }) => {
   const handleAddLead = async (newLead, idx) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:3000/api/leads/led', newLead, {
+      const res = await axios.post('https://tc-crm.vercel.app/api/leads/led', newLead, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -942,7 +942,7 @@ const Employee = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:3000/api/leads/distribute', {
+      await axios.post('https://tc-crm.vercel.app/api/leads/distribute', {
         leadIds: [selectedLeadId],
         employeeIds: [selectedEmployeeId],
       }, {
@@ -1019,7 +1019,7 @@ const Employee = ({ sidebarCollapsed }) => {
         setLeadRows(rows => rows.map((r, i) => i === idx ? { ...r, _lastBrandName: row.brandName, _lastNotes: row.additionalNotes } : r));
         (async () => {
           try {
-            await axios.put(`http://localhost:3000/api/leads/${row._id}`, {
+            await axios.put(`https://tc-crm.vercel.app/api/leads/${row._id}`, {
               brandName: row.brandName,
               additionalNotes: row.additionalNotes
             }, {
@@ -1041,7 +1041,7 @@ const Employee = ({ sidebarCollapsed }) => {
     const fetchBackendLeads = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:3000/api/leads/all', {
+        const res = await axios.get('https://tc-crm.vercel.app/api/leads/all', {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (Array.isArray(res.data)) {
@@ -1085,7 +1085,7 @@ const Employee = ({ sidebarCollapsed }) => {
       
       console.log('Fetching leads for distribution...');
       // Get available leads (unassigned)
-      const leadsRes = await axios.get('http://localhost:3000/api/leads/distribution', {
+      const leadsRes = await axios.get('https://tc-crm.vercel.app/api/leads/distribution', {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Leads response:', leadsRes.data);
@@ -1093,7 +1093,7 @@ const Employee = ({ sidebarCollapsed }) => {
       
       console.log('Fetching employees for distribution...');
       // Get employees
-      const employeesRes = await axios.get('http://localhost:3000/api/employees/lead-distribution', {
+      const employeesRes = await axios.get('https://tc-crm.vercel.app/api/employees/lead-distribution', {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Employees response:', employeesRes.data);
@@ -1135,7 +1135,7 @@ const Employee = ({ sidebarCollapsed }) => {
     setDistributionLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:3000/api/leads/distribute', {
+      await axios.post('https://tc-crm.vercel.app/api/leads/distribute', {
         leadIds: selectedDistributionLeads,
         employeeIds: selectedDistributionEmployees
       }, {

@@ -62,7 +62,7 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:3000/api/payments/stats', {
+      const response = await axios.get('https://tc-crm.vercel.app/api/payments/stats', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStats(response.data);

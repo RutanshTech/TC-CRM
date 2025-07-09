@@ -65,7 +65,7 @@ const DocumentUploadModal = ({ isOpen, onClose, lead, onUploadSuccess, batchGovR
         });
       }
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/api/leads/${lead._id}/upload`, {
+      const response = await fetch(`https://tc-crm.vercel.app/api/leads/${lead._id}/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -25,7 +25,7 @@ const OperationsLeads = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/api/leads/all', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/all', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const allLeads = Array.isArray(res.data) ? res.data : res.data.leads || [];

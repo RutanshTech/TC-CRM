@@ -18,7 +18,7 @@ function usePresence(employeeId) {
     
     // Set online on mount
     axios.patch(
-      'http://localhost:3000/api/employees/status',
+      'https://tc-crm.vercel.app/api/employees/status',
       { status: 'online' },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -26,7 +26,7 @@ function usePresence(employeeId) {
     // Heartbeat every 2 min
     const interval = setInterval(() => {
       axios.patch(
-        'http://localhost:3000/api/employees/status',
+        'https://tc-crm.vercel.app/api/employees/status',
         { status: 'online' },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -35,7 +35,7 @@ function usePresence(employeeId) {
     // Set offline on tab close
     const handleOffline = () => {
       navigator.sendBeacon(
-        'http://localhost:3000/api/employees/status',
+        'https://tc-crm.vercel.app/api/employees/status',
         JSON.stringify({ status: 'offline' })
       );
     };
@@ -110,7 +110,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
         throw new Error('No authentication token found');
       }
       
-      const res = await axios.get('http://localhost:3000/api/leads/my', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/my', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -161,7 +161,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
   const updateCallStatus = async (leadId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.patch(`http://localhost:3000/api/leads/${leadId}/status`, { callStatus: newStatus }, {
+      await axios.patch(`https://tc-crm.vercel.app/api/leads/${leadId}/status`, { callStatus: newStatus }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success('Status updated successfully');
@@ -184,7 +184,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
     setDetailsModalOpen(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:3000/api/leads/${leadId}`, {
+      const res = await axios.get(`https://tc-crm.vercel.app/api/leads/${leadId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSelectedLead(res.data);
@@ -257,7 +257,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
       });
       
       if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'super-admin')) {
-        await axios.put(`http://localhost:3000/api/leads/${updatedLead._id}`, updatedLead, {
+        await axios.put(`https://tc-crm.vercel.app/api/leads/${updatedLead._id}`, updatedLead, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -273,7 +273,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
           currentUserId: currentUser?.id
         });
         
-        const response = await axios.put(`http://localhost:3000/api/leads/${updatedLead._id}/employee`, allowed, {
+        const response = await axios.put(`https://tc-crm.vercel.app/api/leads/${updatedLead._id}/employee`, allowed, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -311,7 +311,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
   const fetchAdvocates = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/api/advocates', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/advocates', {
         headers: { Authorization: token ? `Bearer ${token}` : undefined },
       });
       setAdvocates(res.data.users || []);
@@ -356,7 +356,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       if (assignType === 'operation') {
-        await axios.post('http://localhost:3000/api/leads/assign-to-operation', {
+        await axios.post('https://tc-crm.vercel.app/api/leads/assign-to-operation', {
           leadIds: selectedLeads,
           operationId: selectedOperation,
         }, {
@@ -364,7 +364,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
         });
         toast.success('Leads sent to Operations successfully!');
       } else if (assignType === 'advocate') {
-        await axios.post('http://localhost:3000/api/leads/assign-to-advocate', {
+        await axios.post('https://tc-crm.vercel.app/api/leads/assign-to-advocate', {
           leadIds: selectedLeads,
           advocateId: selectedOperation,
         }, {
@@ -385,7 +385,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
   const handleAdvocateFieldUpdate = async (leadId, field, value) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.patch(`http://localhost:3000/api/leads/${leadId}/${field}`, { [field]: value }, {
+      await axios.patch(`https://tc-crm.vercel.app/api/leads/${leadId}/${field}`, { [field]: value }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success(`${field.charAt(0).toUpperCase() + field.slice(1)} updated successfully`);
@@ -1195,7 +1195,7 @@ function PaymentTab({ lead }) {
       if (lead && lead._id) {
         setClaimsLoading(true);
         const token = localStorage.getItem('token');
-        axios.get(`http://localhost:3000/api/leads/${lead._id}/claims`, {
+        axios.get(`https://tc-crm.vercel.app/api/leads/${lead._id}/claims`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {

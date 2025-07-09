@@ -27,7 +27,7 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/api/leads/all', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/all', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeads(res.data);
@@ -63,7 +63,7 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
     formData.append('batchGovReceiptFile', selectedFile);
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:3000/api/leads/${selectedLead._id}/upload`, formData, {
+      await axios.post(`https://tc-crm.vercel.app/api/leads/${selectedLead._id}/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -86,7 +86,7 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
     console.log('DEBUG: Toggling status for lead:', lead._id, 'field:', field, 'new value:', newValue);
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.patch(`http://localhost:3000/api/leads/${lead._id}/advocate-status`, {
+      const response = await axios.patch(`https://tc-crm.vercel.app/api/leads/${lead._id}/advocate-status`, {
         [field]: newValue
       }, {
         headers: { Authorization: `Bearer ${token}` }
