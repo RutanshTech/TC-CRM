@@ -85,7 +85,7 @@ const leadSchema = new mongoose.Schema({
   // Advocate-specific fields
   pendingForESign: { type: Boolean, default: false },
   govtPaymentDone: { type: Boolean, default: false },
-  fillingDone: { type: String, default: '' },
+  fillingDone: { type: Boolean, default: false },
   batchSelectionForGovReceipt: { type: Boolean, default: false },
   batchGovReceiptFile: fileFieldSchema,
   // For compatibility with old fields

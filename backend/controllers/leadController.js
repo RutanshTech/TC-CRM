@@ -653,7 +653,7 @@ exports.uploadLeadFile = async (req, res) => {
     // For each file field, save to lead
     const fileFields = [
       'aadharCardFront', 'aadharCardBack', 'panCard', 'passportPhoto', 'companyPan',
-      'incorporationCertificate', 'msme', 'partnershipDeed', 'logo', 'additionalFiles'
+      'incorporationCertificate', 'msme', 'partnershipDeed', 'logo', 'additionalFiles', 'batchGovReceiptFile'
     ];
     for (const field of fileFields) {
       if (req.files[field]) {
@@ -768,10 +768,50 @@ exports.assignLeadsToOperation = async (req, res) => {
     if (!req.user || !['employee', 'admin', 'super-admin'].includes(req.user.role)) {
       return res.status(403).json({ message: 'Not authorized.' });
     }
+    
+    // Update leads with operation assignment
     const result = await Lead.updateMany(
       { _id: { $in: leadIds } },
       { $set: { assignedToOperation: operationId } }
     );
+    
+    // Send notification to the operation user
+    if (result.modifiedCount > 0) {
+      try {
+        const Notification = require('../models/Notification');
+        const User = require('../models/User');
+        
+        // Get operation user details
+        const operationUser = await User.findById(operationId);
+        
+        if (operationUser) {
+          // Create notification for lead assignment
+          const notification = await Notification.create({
+            title: 'New Leads Assigned',
+            message: `${result.modifiedCount} lead(s) have been assigned to you for processing.`,
+            type: 'lead_status',
+            priority: 'high',
+            recipients: [operationId],
+            requiresAction: true,
+            actionType: 'review_lead',
+            relatedData: {
+              leadId: leadIds.join(','),
+              employeeId: operationId
+            },
+            sender: req.user.id
+          });
+          
+          // Send the notification
+          await notification.sendNotification();
+          
+          console.log('DEBUG: Notification sent to operation user:', operationId);
+        }
+      } catch (notificationError) {
+        console.error('DEBUG: Failed to send notification:', notificationError);
+        // Don't fail the main operation if notification fails
+      }
+    }
+    
     console.log('DEBUG assignLeadsToOperation result:', result);
     res.json({ message: 'Leads assigned to Operations successfully.', result });
   } catch (error) {
@@ -815,15 +855,17 @@ exports.getLeadClaims = async (req, res) => {
 // Advocate can update only status fields
 exports.updateAdvocateStatusFields = async (req, res) => {
   try {
+    console.log('DEBUG: updateAdvocateStatusFields called by:', req.user);
     if (!req.user || req.user.role !== 'advocate') {
       return res.status(403).json({ message: 'Only advocate can update these fields.' });
     }
     const { id } = req.params;
-    const allowedFields = ['pendingESign', 'govtPaymentDone', 'fillingDone'];
+    const allowedFields = ['pendingForESign', 'govtPaymentDone', 'fillingDone'];
     const updateFields = {};
     allowedFields.forEach(field => {
       if (field in req.body) updateFields[field] = req.body[field];
     });
+    console.log('DEBUG: Updating lead', id, 'with fields:', updateFields);
     if (Object.keys(updateFields).length === 0) {
       return res.status(400).json({ message: 'No valid fields to update.' });
     }
@@ -835,8 +877,18 @@ exports.updateAdvocateStatusFields = async (req, res) => {
     if (!updatedLead) {
       return res.status(404).json({ message: 'Lead not found.' });
     }
+    console.log('DEBUG: Lead updated successfully:', {
+      leadId: updatedLead._id,
+      updatedFields: updateFields,
+      newValues: {
+        pendingForESign: updatedLead.pendingForESign,
+        govtPaymentDone: updatedLead.govtPaymentDone,
+        fillingDone: updatedLead.fillingDone
+      }
+    });
     res.json({ message: 'Status fields updated', lead: updatedLead });
   } catch (error) {
+    console.error('DEBUG: Error updating status fields:', error);
     res.status(500).json({ message: 'Failed to update status fields', error: error.message });
   }
 };

@@ -133,15 +133,60 @@ router.post('/assign-to-operation', authMiddleware, assignLeadsToOperation);
 
 // Assign leads to advocate
 router.post('/assign-to-advocate', authMiddleware, async (req, res) => {
-  const { leadIds, advocateId } = req.body;
-  if (!Array.isArray(leadIds) || !advocateId) {
-    return res.status(400).json({ message: 'leadIds (array) and advocateId are required' });
+  try {
+    const { leadIds, advocateId } = req.body;
+    if (!Array.isArray(leadIds) || !advocateId) {
+      return res.status(400).json({ message: 'leadIds (array) and advocateId are required' });
+    }
+    
+    // Update leads with advocate assignment
+    const result = await require('../models/Lead').updateMany(
+      { _id: { $in: leadIds } },
+      { assignedToAdvocate: advocateId }
+    );
+    
+    // Send notification to the advocate user
+    if (result.modifiedCount > 0) {
+      try {
+        const Notification = require('../models/Notification');
+        const User = require('../models/User');
+        
+        // Get advocate user details
+        const advocateUser = await User.findById(advocateId);
+        
+        if (advocateUser) {
+          // Create notification for lead assignment
+          const notification = await Notification.create({
+            title: 'New Leads Assigned',
+            message: `${result.modifiedCount} lead(s) have been assigned to you for processing.`,
+            type: 'lead_status',
+            priority: 'high',
+            recipients: [advocateId],
+            requiresAction: true,
+            actionType: 'review_lead',
+            relatedData: {
+              leadId: leadIds.join(','),
+              employeeId: advocateId
+            },
+            sender: req.user.id
+          });
+          
+          // Send the notification
+          await notification.sendNotification();
+          
+          console.log('DEBUG: Notification sent to advocate user:', advocateId);
+        }
+      } catch (notificationError) {
+        console.error('DEBUG: Failed to send notification:', notificationError);
+        // Don't fail the main operation if notification fails
+      }
+    }
+    
+    res.json({ message: 'Leads assigned to advocate' });
+  } catch (error) {
+    console.error('DEBUG: Error assigning leads to advocate:', error);
+    res.status(500).json({ message: 'Failed to assign leads to advocate', error: error.message });
   }
-  await require('../models/Lead').updateMany(
-    { _id: { $in: leadIds } },
-    { assignedToAdvocate: advocateId }
-  );
-  res.json({ message: 'Leads assigned to advocate' });
 });
 
 // PATCH: Update advocate fields for a lead
