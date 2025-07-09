@@ -60,7 +60,7 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
     if (!selectedFile || !selectedLead) return;
     setUploading(true);
     const formData = new FormData();
-    formData.append('additionalFiles', selectedFile);
+    formData.append('batchGovReceiptFile', selectedFile);
     try {
       const token = localStorage.getItem('token');
       await axios.post(`http://localhost:3000/api/leads/${selectedLead._id}/upload`, formData, {
@@ -69,7 +69,7 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      toast.success('File uploaded successfully!');
+      toast.success('Batch Government Receipt uploaded successfully!');
       handleCloseUploadModal();
       fetchLeads();
     } catch (err) {
@@ -83,16 +83,19 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
 
   const handleToggleStatus = async (lead, field) => {
     const newValue = !lead[field];
+    console.log('DEBUG: Toggling status for lead:', lead._id, 'field:', field, 'new value:', newValue);
     try {
       const token = localStorage.getItem('token');
-      await axios.patch(`http://localhost:3000/api/leads/${lead._id}/advocate-status`, {
+      const response = await axios.patch(`http://localhost:3000/api/leads/${lead._id}/advocate-status`, {
         [field]: newValue
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      console.log('DEBUG: Status update successful:', response.data);
       toast.success('Status updated!');
       fetchLeads();
     } catch (err) {
+      console.error('DEBUG: Status update failed:', err.response?.data || err.message);
       toast.error('Failed to update status');
     }
   };
@@ -135,10 +138,10 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-gray-400">Pending for E-Sign</span>
                     <button
-                      className={`text-xs font-bold px-2 py-1 rounded focus:outline-none transition-colors duration-150 ${lead.pendingESign ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}
-                      onClick={() => handleToggleStatus(lead, 'pendingESign')}
+                      className={`text-xs font-bold px-2 py-1 rounded focus:outline-none transition-colors duration-150 ${lead.pendingForESign ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'}`}
+                      onClick={() => handleToggleStatus(lead, 'pendingForESign')}
                     >
-                      {lead.pendingESign ? 'Yes' : 'No'}
+                      {lead.pendingForESign ? 'Yes' : 'No'}
                     </button>
                   </div>
                   <div className="flex items-center justify-between">
@@ -162,16 +165,19 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-gray-400">Batch Gov. Receipt</span>
                     <span>
-                      {lead.batchGovReceipt ? (
-                        <a href={lead.batchGovReceipt} className="text-blue-600 underline text-xs" target="_blank" rel="noopener noreferrer">View</a>
+                      {lead.batchGovReceiptFile ? (
+                        <button 
+                          onClick={() => window.open(lead.batchGovReceiptFile.url, '_blank')}
+                          className="text-blue-600 underline text-xs hover:text-blue-800 transition-colors cursor-pointer"
+                        >
+                          {lead.batchGovReceiptFile.name || 'View'}
+                        </button>
                       ) : 'N/A'}
                     </span>
                   </div>
+
                   <div className="flex gap-2 mt-3">
-                    <button aria-label="Update" className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm hover:shadow-md" onClick={() => handleOpenUploadModal(lead)}>
-                      <PencilIcon /> Update
-                    </button>
-                    <button aria-label="Document Upload" className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-semibold rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 shadow-sm hover:shadow-md">
+                    <button aria-label="Document Upload" className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-semibold rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm hover:shadow-md" onClick={() => handleOpenUploadModal(lead)}>
                       <UploadIcon /> Document Upload
                     </button>
                   </div>
@@ -185,8 +191,9 @@ const AdvocateLeads = ({ sidebarCollapsed }) => {
       {showUploadModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm mx-auto">
-            <h2 className="text-lg font-bold mb-4 text-gray-800">Upload File for Lead</h2>
-            <input type="file" onChange={handleFileChange} className="mb-4" />
+            <h2 className="text-lg font-bold mb-4 text-gray-800">Upload Batch Government Receipt</h2>
+            <p className="text-sm text-gray-600 mb-4">Select a file to upload as Batch Government Receipt for this lead</p>
+            <input type="file" onChange={handleFileChange} className="mb-4 w-full p-2 border border-gray-300 rounded" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" />
             <div className="flex justify-end gap-2">
               <button onClick={handleCloseUploadModal} className="px-4 py-2 rounded bg-gray-200 text-gray-700">Cancel</button>
               <button onClick={handleFileUpload} disabled={!selectedFile || uploading} className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-50">
