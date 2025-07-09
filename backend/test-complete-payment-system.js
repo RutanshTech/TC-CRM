@@ -20,7 +20,7 @@ async function testCompletePaymentSystem() {
 
     // Test 2: Check frontend
     try {
-      const frontendResponse = await axios.get('http://localhost:5173');
+      const frontendResponse = await axios.get('https://tc-crm-hvs7.vercel.app');
       console.log('✅ Frontend server is running');
     } catch (error) {
       console.log('❌ Frontend server error:', error.message);
