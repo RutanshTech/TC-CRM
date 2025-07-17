@@ -67,7 +67,7 @@ app.set('io', io);
 // Ensure Super Admin exists and then start server
 const startServer = async () => {
   try {
-    const email = 'S.A@TMC.in;
+    const email = 'S.A@TMC.in';
     const password = 'TMCR.24@25';
     const existing = await User.findOne({ email });
     if (!existing) {
