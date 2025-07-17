@@ -24,8 +24,8 @@ async function testLeaveSystem() {
     // Step 1: Login as super admin
     console.log('1. Logging in as super admin...');
     const adminLogin = await axios.post(`${BASE_URL}/auth/login`, {
-      email: 'admin@example.com',
-      password: '123456'
+      email: 'S.A@TMC.in',
+      password: 'TMCR.24@25'
     });
     const adminToken = adminLogin.data.token;
     console.log('✅ Admin login successful\n');

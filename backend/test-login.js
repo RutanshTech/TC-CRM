@@ -5,7 +5,7 @@ async function testLogin() {
     console.log('Testing login endpoint...');
     
     const loginData = {
-      email: 'admin@example.com',
+      email: 'S.A@TMC.in',
       password: '123456',
       role: 'super-admin'
     };

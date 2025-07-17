@@ -8,7 +8,7 @@ async function testEmployeeLeadUpdate() {
     // First, login as an employee to get a token
     const loginResponse = await axios.post('https://tc-crm.vercel.app/api/auth/login', {
       email: 'employee@test.com', // Replace with actual employee email
-      password: '123456', // Replace with actual password
+      password: 'TMCR.24@25', // Replace with actual password
       role: 'employee'
     });
     

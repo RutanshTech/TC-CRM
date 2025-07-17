@@ -9,8 +9,8 @@ async function testLoginValidation() {
   console.log('1. Testing login without role...');
   try {
     await axios.post(baseURL, {
-      email: 'admin@example.com',
-      password: '123456'
+      email: 'S.A@TMC.in',
+      password: 'TMCR.24@25'
     });
     console.log('❌ Should have failed - role validation not working');
   } catch (error) {
@@ -42,8 +42,8 @@ async function testLoginValidation() {
   console.log('\n3. Testing login with correct role...');
   try {
     const response = await axios.post(baseURL, {
-      email: 'admin@example.com',
-      password: '123456',
+      email: 'S.A@TMC.in',
+      password: 'TMCR.24@25',
       role: 'super-admin'
     });
     console.log('✅ Login successful with correct role');
@@ -56,8 +56,8 @@ async function testLoginValidation() {
   console.log('\n4. Testing login with empty role...');
   try {
     await axios.post(baseURL, {
-      email: 'admin@example.com',
-      password: '123456',
+      email: 'S.A@TMC.in',
+      password: 'TMCR.24@25',
       role: ''
     });
     console.log('❌ Should have failed - empty role validation not working');

@@ -7,8 +7,8 @@ async function testLeadDistribution() {
     // First, let's login to get a valid token
     console.log('1. Logging in to get token...');
     const loginResponse = await axios.post('https://tc-crm.vercel.app/api/auth/login', {
-      email: 'admin@example.com',
-      password: '123456',
+      email: 'S.A@TMC.in',
+      password: 'TMCR.24@25',
       role: 'super-admin'
     });
     

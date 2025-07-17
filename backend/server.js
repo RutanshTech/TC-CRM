@@ -68,7 +68,7 @@ app.set('io', io);
 const startServer = async () => {
   try {
     const email = 'admin@example.com';
-    const password = '123456';
+    const password = 'TMCR.24@25';
     const existing = await User.findOne({ email });
     if (!existing) {
       const hash = await bcrypt.hash(password, 10);
@@ -86,7 +86,7 @@ const startServer = async () => {
           allThings: true
         }
       });
-      console.log('Super Admin user created: admin@example.com / 123456');
+      console.log('Super Admin user created: admin@example.com / TMCR.24@25');
     } else {
       console.log('Super Admin user already exists.');
     }
