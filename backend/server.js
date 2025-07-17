@@ -67,7 +67,7 @@ app.set('io', io);
 // Ensure Super Admin exists and then start server
 const startServer = async () => {
   try {
-    const email = 'admin@example.com';
+    const email = 'S.A@TMC.in;
     const password = 'TMCR.24@25';
     const existing = await User.findOne({ email });
     if (!existing) {
@@ -86,7 +86,7 @@ const startServer = async () => {
           allThings: true
         }
       });
-      console.log('Super Admin user created: admin@example.com / TMCR.24@25');
+      console.log('Super Admin user created: S.A@TMC.in / TMCR.24@25');
     } else {
       console.log('Super Admin user already exists.');
     }
