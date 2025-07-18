@@ -26,7 +26,6 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
     pendingCount: 0
   });
 
-  // Form state for payment creation/editing
   const [formData, setFormData] = useState({
     amount: '',
     paymentMethod: '',
@@ -45,12 +44,12 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
         ...filters
       });
 
-      const response = await axios.get(`/api/payments?${params}`, {
+      const response = await axios.get(`https://tc-crm.vercel.app/api/payments?${params}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      setPayments(response.data.payments);
-      setPagination(response.data.pagination);
+      setPayments(Array.isArray(response.data.payments) ? response.data.payments : []);
+      setPagination(response.data.pagination || { current: 1, total: 1, totalRecords: 0 });
     } catch (error) {
       toast.error('Failed to fetch payments');
       console.error('Error fetching payments:', error);
@@ -62,7 +61,7 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('tc-crm.vercel.app/api/payments/stats', {
+      const response = await axios.get('https://tc-crm.vercel.app/api/payments/stats', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStats(response.data);
@@ -140,8 +139,6 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
       toast.error(error.response?.data?.message || 'Delete failed');
     }
   };
-
-
 
   const handleVerify = async (paymentId, action) => {
     const notes = prompt(`Enter ${action} notes:`);
@@ -255,25 +252,15 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Payment Details
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Claimed By / Lead
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Date
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Details</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Claimed By / Lead</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {payments.map((payment) => (
+                    {Array.isArray(payments) && payments.map((payment) => (
                       <tr key={payment._id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div>
@@ -352,7 +339,7 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
           </div>
 
           {/* Pagination */}
-          {pagination.total > 1 && (
+          {pagination?.total > 1 && (
             <div className="flex justify-center mt-6">
               <nav className="flex space-x-2">
                 {Array.from({ length: pagination.total }, (_, i) => i + 1).map((page) => (
@@ -442,4 +429,4 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
   );
 };
 
-export default PaymentManagement; 
+export default PaymentManagement;
