@@ -44,7 +44,7 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
         ...filters
       });
 
-      const response = await axios.get(`/api/payments?${params}`, {
+      const response = await axios.get(`https://tc-crm-hvs7.vercel.app/api/payments?${params}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
