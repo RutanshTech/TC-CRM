@@ -81,8 +81,8 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
     try {
       const token = localStorage.getItem('token');
       const url = editingPayment 
-        ? `/api/payments/${editingPayment._id}`
-        : '/api/payments';
+        ? `https://tc-crm.vercel.app/api/payments/${editingPayment._id}`
+        : 'https://tc-crm.vercel.app/api/payments';
       
       const method = editingPayment ? 'put' : 'post';
       
@@ -128,7 +128,7 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`/api/payments/${paymentId}`, {
+      await axios.delete(`https://tc-crm.vercel.app/api/payments/${paymentId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -146,7 +146,7 @@ const PaymentManagement = ({ sidebarCollapsed = false }) => {
     
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`/api/payments/${paymentId}/verify`, { action, notes }, {
+      await axios.post(`https://tc-crm.vercel.app/api/payments/${paymentId}/verify`, { action, notes }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
