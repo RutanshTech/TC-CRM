@@ -689,54 +689,84 @@ exports.uploadLeadFile = async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).json({ message: 'No files uploaded' });
     }
-    // For each file field, save to lead
-    const fileFields = [
-      'aadharCardFront', 'aadharCardBack', 'panCard', 'passportPhoto', 'companyPan',
-      'incorporationCertificate', 'msme', 'partnershipDeed', 'logo', 'additionalFiles', 'batchGovReceiptFile'
-    ];
-    for (const field of fileFields) {
-      if (req.files[field]) {
-        if (field === 'additionalFiles') {
-          // Array of files or single file
-          if (Array.isArray(req.files[field])) {
-            for (const fileObj of req.files[field]) {
-              try {
-                const result = await uploadToCloudinary(fileObj.data, 'leads', fileObj.name);
-                const fileData = { url: result.secure_url, name: fileObj.name };
-                lead.additionalFiles.push(fileData);
-              } catch (err) {
-                console.error('Cloudinary upload error (additionalFiles):', err);
-                return res.status(500).json({ message: 'Cloudinary upload error (additionalFiles)', error: err.message, details: err });
-              }
-            }
-          } else {
-            // Single file
-            const fileObj = req.files[field];
+    // Map incoming field names to model field names
+    const fieldMap = {
+      'Aadhar Card Front': 'aadharCardFront',
+      'Aadhar Card Back': 'aadharCardBack',
+      'PAN Card': 'panCard',
+      'Passport Photo': 'passportPhoto',
+      'Company PAN': 'companyPan',
+      'Incorporation Certificate': 'incorporationCertificate',
+      'MSME': 'msme',
+      'Partnership Deed': 'partnershipDeed',
+      'Logo': 'logo',
+      'Additional Files': 'additionalFiles',
+      'Batch Gov Receipt File': 'batchGovReceiptFile'
+    };
+    const responseFiles = {};
+    for (const incomingField in req.files) {
+      const modelField = fieldMap[incomingField] || incomingField;
+      const fileObj = req.files[incomingField];
+      if (modelField === 'additionalFiles') {
+        // Array or single file
+        if (Array.isArray(fileObj)) {
+          for (const f of fileObj) {
             try {
-              const result = await uploadToCloudinary(fileObj.data, 'leads', fileObj.name);
-              const fileData = { url: result.secure_url, name: fileObj.name };
+              let result;
+              if (f.tempFilePath) {
+                result = await cloudinary.uploader.upload(f.tempFilePath, { folder: 'leads' });
+              } else {
+                result = await uploadToCloudinary(f.data, 'leads', f.name);
+              }
+              console.log('Cloudinary upload result:', result);
+              const fileData = { url: result.secure_url, name: f.name };
               lead.additionalFiles.push(fileData);
+              if (!responseFiles[incomingField]) responseFiles[incomingField] = [];
+              responseFiles[incomingField].push(fileData);
             } catch (err) {
-              console.error('Cloudinary upload error (additionalFiles single):', err);
-              return res.status(500).json({ message: 'Cloudinary upload error (additionalFiles single)', error: err.message, details: err });
+              console.error(`Cloudinary upload error (${incomingField}):`, err);
+              return res.status(500).json({ message: `Cloudinary upload error (${incomingField})`, error: err.message, details: err });
             }
           }
         } else {
-          // Single file
-          const fileObj = Array.isArray(req.files[field]) ? req.files[field][0] : req.files[field];
           try {
-            const result = await uploadToCloudinary(fileObj.data, 'leads', fileObj.name);
+            let result;
+            if (fileObj.tempFilePath) {
+              result = await cloudinary.uploader.upload(fileObj.tempFilePath, { folder: 'leads' });
+            } else {
+              result = await uploadToCloudinary(fileObj.data, 'leads', fileObj.name);
+            }
+            console.log('Cloudinary upload result:', result);
             const fileData = { url: result.secure_url, name: fileObj.name };
-            lead[field] = fileData;
+            lead.additionalFiles.push(fileData);
+            responseFiles[incomingField] = fileData;
           } catch (err) {
-            console.error(`Cloudinary upload error (${field}):`, err);
-            return res.status(500).json({ message: `Cloudinary upload error (${field})`, error: err.message, details: err });
+            console.error(`Cloudinary upload error (${incomingField}):`, err);
+            return res.status(500).json({ message: `Cloudinary upload error (${incomingField})`, error: err.message, details: err });
           }
+        }
+      } else {
+        // Single file
+        const f = Array.isArray(fileObj) ? fileObj[0] : fileObj;
+        try {
+          let result;
+          if (f.tempFilePath) {
+            result = await cloudinary.uploader.upload(f.tempFilePath, { folder: 'leads' });
+          } else {
+            result = await uploadToCloudinary(f.data, 'leads', f.name);
+          }
+          console.log('Cloudinary upload result:', result);
+          const fileData = { url: result.secure_url, name: f.name };
+          lead[modelField] = fileData;
+          responseFiles[incomingField] = fileData;
+        } catch (err) {
+          console.error(`Cloudinary upload error (${incomingField}):`, err);
+          return res.status(500).json({ message: `Cloudinary upload error (${incomingField})`, error: err.message, details: err });
         }
       }
     }
     await lead.save();
-    res.json({ message: 'Files uploaded', files: req.files });
+    res.json({ message: 'Files uploaded', files: responseFiles });
   } catch (error) {
     console.error('General uploadLeadFile error:', error);
     res.status(500).json({ message: 'Error uploading files', error: error.message, details: error });
