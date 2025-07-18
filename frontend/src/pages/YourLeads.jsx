@@ -310,7 +310,7 @@ const YourLeads = ({ sidebarCollapsed }) => {
   // Fetch Operations users for dropdown
   const fetchOperations = async () => {
     try {
-      const res = await axios.get('https://tc-crm-hvs7.vercel.app/api/operations-basic');
+      const res = await axios.get('https://tc-crm.vercel.app/api/operations-basic');
       setOperations(res.data.operations || []);
     } catch (err) {
       toast.error('Failed to fetch Operations users');
