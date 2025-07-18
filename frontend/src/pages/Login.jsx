@@ -24,17 +24,17 @@ export default function Login({ onLogin }) {
       
       // Use different endpoints based on role
       if (role === 'employee') {
-        res = await axios.post("tc-crm.vercel.app/api/auth/employee-login", {
+        res = await axios.post("https://tc-crm.vercel.app/api/auth/employee-login", {
           email,
           password,
         });
       } else if (role === 'operation') {
-        res = await axios.post("tc-crm.vercel.app/api/auth/operation-login", {
+        res = await axios.post("https://tc-crm.vercel.app/api/auth/operation-login", {
           email,
           password,
         });
       } else {
-        res = await axios.post("tc-crm.vercel.app/api/auth/login", {
+        res = await axios.post("https://tc-crm.vercel.app/api/auth/login", {
           email,
           password,
           role,
@@ -49,7 +49,7 @@ export default function Login({ onLogin }) {
       if (role === 'advocate' || (res.data.user && res.data.user.role === 'advocate')) {
         try {
           await axios.patch(
-            `tc-crm.vercel.app/api/advocates/${res.data.user._id}/status`,
+            `https://tc-crm.vercel.app/api/advocates/${res.data.user._id}/status`,
             { isActive: true },
             { headers: { Authorization: `Bearer ${res.data.token}` } }
           );

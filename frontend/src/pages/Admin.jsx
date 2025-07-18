@@ -81,7 +81,7 @@ const Admin = ({ sidebarCollapsed }) => {
   const fetchAdmins = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("tc-crm.vercel.app/api/adminsget", {
+      const response = await axios.get("https://tc-crm.vercel.app/api/adminsget", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -214,7 +214,7 @@ const Admin = ({ sidebarCollapsed }) => {
 
   const confirmDeleteAdmin = async () => {
     try {
-      await axios.delete(`tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}`, {
+      await axios.delete(`https://tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -310,7 +310,7 @@ const Admin = ({ sidebarCollapsed }) => {
     try {
       if (isEditModalOpen) {
         const response = await axios.put(
-          `tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}`,
+          `https://tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}`,
           formData,
           {
             headers: {
@@ -322,7 +322,7 @@ const Admin = ({ sidebarCollapsed }) => {
         toast.success("Admin updated successfully");
       } else {
         const response = await axios.post(
-          "tc-crm.vercel.app/api/adminsadd",
+          "https://tc-crm.vercel.app/api/adminsadd",
           formData,
           {
             headers: {
@@ -347,7 +347,7 @@ const Admin = ({ sidebarCollapsed }) => {
 
     try {
       const response = await axios.post(
-        "tc-crm.vercel.app/api/advocate",
+        "https://tc-crm.vercel.app/api/advocate",
         advocateFormData,
         {
           headers: {
@@ -383,7 +383,7 @@ const Admin = ({ sidebarCollapsed }) => {
 
     try {
       await axios.patch(
-        `tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}/reset-password`,
+        `https://tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}/reset-password`,
         { newPassword },
         {
           headers: {
@@ -413,7 +413,7 @@ const Admin = ({ sidebarCollapsed }) => {
 
     try {
       await axios.patch(
-        `tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}/permissions`,
+        `https://tc-crm.vercel.app/api/admin/${selectedAdmin.adminId}/permissions`,
         { adminAccess: permissionsData },
         {
           headers: {

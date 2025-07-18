@@ -8,7 +8,7 @@ async function testLeadPaymentClaim() {
     // Test 1: Check lead payment status endpoint
     console.log('1. Testing check lead payment status endpoint...');
     try {
-      const response = await axios.get('tc-crm.vercel.app/api/payments/check-lead/test-lead-id');
+      const response = await axios.get('https://tc-crm.vercel.app/api/payments/check-lead/test-lead-id');
       console.log('✅ Lead payment status endpoint accessible');
       console.log('Response:', response.data);
     } catch (error) {
@@ -22,7 +22,7 @@ async function testLeadPaymentClaim() {
         leadId: 'test-lead-id'
       };
       
-      const response = await axios.post('tc-crm.vercel.app/api/payments/test-payment-id/claim-with-lead', claimData);
+      const response = await axios.post('https://tc-crm.vercel.app/api/payments/test-payment-id/claim-with-lead', claimData);
       console.log('✅ Payment claim with lead validation works');
       console.log('Response:', response.data);
     } catch (error) {

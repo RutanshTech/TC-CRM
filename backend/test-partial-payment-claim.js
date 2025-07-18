@@ -18,7 +18,7 @@ async function testPartialPaymentClaim() {
         description: 'Test payment for partial claim'
       };
       
-      const response = await axios.post('tc-crm.vercel.app/api/payments', paymentData);
+      const response = await axios.post('https://tc-crm.vercel.app/api/payments', paymentData);
       console.log('✅ Payment created successfully');
       console.log('Payment ID:', response.data.payment._id);
       console.log('Amount:', response.data.payment.amount);
@@ -33,7 +33,7 @@ async function testPartialPaymentClaim() {
         leadId: 'test-lead-with-4-rupees'
       };
       
-      const response = await axios.post('tc-crm.vercel.app/api/payments/test-payment-id/claim-with-lead', claimData);
+      const response = await axios.post('https://tc-crm.vercel.app/api/payments/test-payment-id/claim-with-lead', claimData);
       console.log('✅ Partial claim test completed');
       console.log('Response:', response.data);
       

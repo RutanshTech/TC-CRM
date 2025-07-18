@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 async function testLoginValidation() {
-  const baseURL = 'tc-crm.vercel.app/api/auth/login';
+  const baseURL = 'https://tc-crm.vercel.app/api/auth/login';
   
   console.log('Testing Login Validation...\n');
 

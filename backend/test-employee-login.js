@@ -5,7 +5,7 @@ async function testEmployeeLogin() {
   try {
     console.log('Testing employee login...');
     
-    const response = await axios.post('tc-crm.vercel.app/api/auth/employee-login', {
+    const response = await axios.post('https://tc-crm.vercel.app/api/auth/employee-login', {
       email: 'S.A@TMC.in',
       password: 'TMCR.24@25'
     });
@@ -25,7 +25,7 @@ async function testRegularLogin() {
   try {
     console.log('\nTesting regular login with employee role...');
     
-    const response = await axios.post('tc-crm.vercel.app/api/auth/login', {
+    const response = await axios.post('https://tc-crm.vercel.app/api/auth/login', {
       email: 'employee@test.com',
       password: '123456',
       role: 'employee'

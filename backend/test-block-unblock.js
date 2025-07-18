@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // Test configuration
-const BASE_URL = 'tc-crm.vercel.app/api';
+const BASE_URL = 'https://tc-crm.vercel.app/api';
 const TEST_EMPLOYEE_ID = 'TEST001'; // Replace with an actual employee ID from your database
 
 // Test cases
@@ -126,7 +126,7 @@ async function runTests() {
 // Instructions for running the test
 console.log(`
 📋 Test Instructions:
-1. Make sure your backend server is running on tc-crm.vercel.app
+1. Make sure your backend server is running on https://tc-crm.vercel.app
 2. Replace 'YOUR_TOKEN_HERE' with a valid admin token
 3. Replace 'TEST001' with an actual employee ID from your database
 4. Run: node test-block-unblock.js

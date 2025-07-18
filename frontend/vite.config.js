@@ -9,7 +9,7 @@ export default defineConfig({
     historyApiFallback: true,
     proxy: {
       '/api': {
-        target: 'tc-crm.vercel.app',
+        target: 'https://tc-crm.vercel.app',
         changeOrigin: true,
         secure: false,
       },

@@ -266,11 +266,11 @@ const LeadModal = ({ isOpen, onClose, onSave, lead, user, onActionComplete }) =>
           const user = JSON.parse(localStorage.getItem('user'));
           let url;
           if (user && user.role === 'operation') {
-            url = `tc-crm.vercel.app/api/leads/${lead._id}/operation`;
+            url = `https://tc-crm.vercel.app/api/leads/${lead._id}/operation`;
           } else if (user && user.role === 'employee') {
-            url = `tc-crm.vercel.app/api/leads/${lead._id}/employee`;
+            url = `https://tc-crm.vercel.app/api/leads/${lead._id}/employee`;
           } else {
-            url = `tc-crm.vercel.app/api/leads/${lead._id}`;
+            url = `https://tc-crm.vercel.app/api/leads/${lead._id}`;
           }
           await axios.put(url, { ...finalLeadState, _id: lead._id }, {
             headers: { Authorization: `Bearer ${token}` },
@@ -283,7 +283,7 @@ const LeadModal = ({ isOpen, onClose, onSave, lead, user, onActionComplete }) =>
         } else {
           // Fallback: handle API call here for all roles
           const token = localStorage.getItem('token');
-          await axios.post('tc-crm.vercel.app/api/leads/led', finalLeadState, {
+          await axios.post('https://tc-crm.vercel.app/api/leads/led', finalLeadState, {
             headers: { Authorization: `Bearer ${token}` },
           });
           toast.success('Lead created successfully!');

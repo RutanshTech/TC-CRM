@@ -34,7 +34,7 @@ const AllLeads = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('tc-crm.vercel.app/api/leads/all', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/all', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeads(res.data);
@@ -77,7 +77,7 @@ const AllLeads = ({ sidebarCollapsed }) => {
     formData.append('additionalFiles', selectedFile);
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`tc-crm.vercel.app/api/leads/${selectedLead._id}/upload`, formData, {
+      await axios.post(`https://tc-crm.vercel.app/api/leads/${selectedLead._id}/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

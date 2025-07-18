@@ -22,7 +22,7 @@ const OperationsPayment = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`tc-crm.vercel.app/api/operations/${user.id}`, {
+      const response = await axios.get(`https://tc-crm.vercel.app/api/operations/${user.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -45,7 +45,7 @@ const OperationsPayment = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`tc-crm.vercel.app/api/operations/${user.id}`, {
+      await axios.put(`https://tc-crm.vercel.app/api/operations/${user.id}`, {
         paymentReceiptReceived: paymentReceiptReceived
       }, {
         headers: { Authorization: `Bearer ${token}` }

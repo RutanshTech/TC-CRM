@@ -12,7 +12,7 @@ async function testLeadDistribution() {
     
     console.log('Request data:', testData);
     
-    const response = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData, {
+    const response = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer YOUR_TOKEN_HERE' // Replace with actual token
@@ -39,7 +39,7 @@ async function testEmptyArrays() {
       employeeIds: []
     };
     
-    const response = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData, {
+    const response = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer YOUR_TOKEN_HERE'
@@ -64,7 +64,7 @@ async function testMissingFields() {
       // Missing employeeIds
     };
     
-    const response = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData, {
+    const response = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer YOUR_TOKEN_HERE'
@@ -89,7 +89,7 @@ async function testNonArrayValues() {
       employeeIds: '507f1f77bcf86cd799439012' // String instead of array
     };
     
-    const response = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData, {
+    const response = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer YOUR_TOKEN_HERE'

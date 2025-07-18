@@ -11,7 +11,7 @@ function usePresence(operationId) {
     
     // Set online on mount
     axios.patch(
-      'tc-crm.vercel.app/api/operations/status',
+      'https://tc-crm.vercel.app/api/operations/status',
       { status: 'online' },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -19,7 +19,7 @@ function usePresence(operationId) {
     // Heartbeat every 2 min
     const interval = setInterval(() => {
       axios.patch(
-        'tc-crm.vercel.app/api/operations/status',
+        'https://tc-crm.vercel.app/api/operations/status',
         { status: 'online' },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -28,7 +28,7 @@ function usePresence(operationId) {
     // Set offline on tab close
     const handleOffline = () => {
       navigator.sendBeacon(
-        'tc-crm.vercel.app/api/operations/status',
+        'https://tc-crm.vercel.app/api/operations/status',
         JSON.stringify({ status: 'offline' })
       );
     };

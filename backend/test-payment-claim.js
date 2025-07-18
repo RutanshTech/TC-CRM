@@ -8,7 +8,7 @@ async function testPaymentClaim() {
     // Test 1: Get available payments (should require authentication)
     console.log('1. Testing get available payments endpoint...');
     try {
-      const response = await axios.get('tc-crm.vercel.app/api/payments/available');
+      const response = await axios.get('https://tc-crm.vercel.app/api/payments/available');
       console.log('✅ Available payments endpoint accessible');
       console.log('Response:', response.data);
     } catch (error) {
@@ -25,7 +25,7 @@ async function testPaymentClaim() {
         description: 'Test payment for claim system'
       };
       
-      const response = await axios.post('tc-crm.vercel.app/api/payments', paymentData);
+      const response = await axios.post('https://tc-crm.vercel.app/api/payments', paymentData);
       console.log('✅ Payment created successfully');
       console.log('Payment ID:', response.data.payment._id);
     } catch (error) {

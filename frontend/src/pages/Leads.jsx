@@ -46,7 +46,7 @@ const Leads = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("tc-crm.vercel.app/api/leads/all", {
+      const res = await axios.get("https://tc-crm.vercel.app/api/leads/all", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -104,11 +104,11 @@ const Leads = ({ sidebarCollapsed }) => {
         // Edit mode: Update existing lead
         let url;
         if (user && user.role === 'operation') {
-          url = `tc-crm.vercel.app/api/leads/${newLead._id}/operation`;
+          url = `https://tc-crm.vercel.app/api/leads/${newLead._id}/operation`;
         } else if (user && user.role === 'employee') {
-          url = `tc-crm.vercel.app/api/leads/${newLead._id}/employee`;
+          url = `https://tc-crm.vercel.app/api/leads/${newLead._id}/employee`;
         } else {
-          url = `tc-crm.vercel.app/api/leads/${newLead._id}`;
+          url = `https://tc-crm.vercel.app/api/leads/${newLead._id}`;
         }
         res = await axios.put(
           url,
@@ -124,7 +124,7 @@ const Leads = ({ sidebarCollapsed }) => {
       } else {
         // Add mode: Create new lead
         res = await axios.post(
-          "tc-crm.vercel.app/api/leads/led",
+          "https://tc-crm.vercel.app/api/leads/led",
           newLead,
           {
             headers: {
@@ -152,7 +152,7 @@ const Leads = ({ sidebarCollapsed }) => {
     setSelectedLeadForDetails(null);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`tc-crm.vercel.app/api/leads/${leadId}`, {
+      const res = await axios.get(`https://tc-crm.vercel.app/api/leads/${leadId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // Ensure fillingTextArray is always present for LeadModal
@@ -194,9 +194,9 @@ const Leads = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       const user = JSON.parse(localStorage.getItem('user'));
-      let url = 'tc-crm.vercel.app/api/advocates';
+      let url = 'https://tc-crm.vercel.app/api/advocates';
       if (user?.role === 'operation') {
-        url = 'tc-crm.vercel.app/api/advocates/for-operation';
+        url = 'https://tc-crm.vercel.app/api/advocates/for-operation';
       }
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -221,7 +221,7 @@ const Leads = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'tc-crm.vercel.app/api/leads/assign-to-advocate',
+        'https://tc-crm.vercel.app/api/leads/assign-to-advocate',
         { leadIds: selectedLeads, advocateId: selectedAdvocate },
         { headers: { Authorization: `Bearer ${token}` } }
       );

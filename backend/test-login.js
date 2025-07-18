@@ -12,7 +12,7 @@ async function testLogin() {
     
     console.log('Login data:', loginData);
     
-    const response = await axios.post('tc-crm.vercel.app/api/auth/login', loginData, {
+    const response = await axios.post('https://tc-crm.vercel.app/api/auth/login', loginData, {
       headers: {
         'Content-Type': 'application/json'
       }

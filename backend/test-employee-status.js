@@ -6,7 +6,7 @@ async function testEmployeeStatusUpdate() {
     console.log('Testing employee status update...');
     
     // First, login as an employee to get a token
-    const loginResponse = await axios.post('tc-crm.vercel.app/api/auth/login', {
+    const loginResponse = await axios.post('https://tc-crm.vercel.app/api/auth/login', {
       email: 'employee@example.com', // Replace with actual employee email
       password: 'password123' // Replace with actual password
     });
@@ -15,7 +15,7 @@ async function testEmployeeStatusUpdate() {
     console.log('Login successful, token received');
     
     // Test updating own status to online
-    const onlineResponse = await axios.patch('tc-crm.vercel.app/api/employees/status', {
+    const onlineResponse = await axios.patch('https://tc-crm.vercel.app/api/employees/status', {
       status: 'online'
     }, {
       headers: { Authorization: `Bearer ${token}` }
@@ -24,7 +24,7 @@ async function testEmployeeStatusUpdate() {
     console.log('Status updated to online:', onlineResponse.data);
     
     // Test updating own status to offline
-    const offlineResponse = await axios.patch('tc-crm.vercel.app/api/employees/status', {
+    const offlineResponse = await axios.patch('https://tc-crm.vercel.app/api/employees/status', {
       status: 'offline'
     }, {
       headers: { Authorization: `Bearer ${token}` }

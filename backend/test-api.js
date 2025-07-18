@@ -6,7 +6,7 @@ async function testAPI() {
 
     // Test login
     console.log('1. Testing login...');
-    const loginResponse = await axios.post('tc-crm.vercel.app/api/auth/login', {
+    const loginResponse = await axios.post('https://tc-crm.vercel.app/api/auth/login', {
       email: 'S.A@TMC.in',
       password: 'TMCR.24@25',
       role: 'super-admin'
@@ -18,7 +18,7 @@ async function testAPI() {
 
     // Test getting admins
     console.log('\n2. Testing get admins...');
-    const adminsResponse = await axios.get('tc-crm.vercel.app/api/adminsget', {
+    const adminsResponse = await axios.get('https://tc-crm.vercel.app/api/adminsget', {
       headers: { Authorization: `Bearer ${token}` }
     });
     
@@ -31,7 +31,7 @@ async function testAPI() {
       // Test permissions endpoint
       console.log('\n3. Testing permissions endpoint...');
       try {
-        const permissionsResponse = await axios.get(`tc-crm.vercel.app/api/admin/${admin.adminId}/permissions`, {
+        const permissionsResponse = await axios.get(`https://tc-crm.vercel.app/api/admin/${admin.adminId}/permissions`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         console.log('✅ Got permissions:', permissionsResponse.data);
@@ -46,7 +46,7 @@ async function testAPI() {
           allThings: false
         };
         
-        const updateResponse = await axios.patch(`tc-crm.vercel.app/api/admin/${admin.adminId}/permissions`, {
+        const updateResponse = await axios.patch(`https://tc-crm.vercel.app/api/admin/${admin.adminId}/permissions`, {
           adminAccess: newPermissions
         }, {
           headers: { 

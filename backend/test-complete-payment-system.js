@@ -8,7 +8,7 @@ async function testCompletePaymentSystem() {
     // Test 1: Check if servers are running
     console.log('1. Checking server status...');
     try {
-      const backendResponse = await axios.get('tc-crm.vercel.app/api/payments/available');
+      const backendResponse = await axios.get('https://tc-crm.vercel.app/api/payments/available');
       console.log('✅ Backend server is running');
     } catch (error) {
       if (error.response?.status === 401) {

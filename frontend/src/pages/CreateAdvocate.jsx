@@ -41,7 +41,7 @@ const CreateAdvocate = ({ sidebarCollapsed }) => {
   const fetchAdvocates = async () => {
     setFetchingAdvocates(true);
     try {
-      const response = await axios.get("tc-crm.vercel.app/api/advocates", {
+      const response = await axios.get("https://tc-crm.vercel.app/api/advocates", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -72,7 +72,7 @@ const CreateAdvocate = ({ sidebarCollapsed }) => {
 
     try {
       const response = await axios.post(
-        "tc-crm.vercel.app/api/advocates",
+        "https://tc-crm.vercel.app/api/advocates",
         formData,
         {
           headers: {
@@ -123,7 +123,7 @@ const CreateAdvocate = ({ sidebarCollapsed }) => {
 
   const confirmDeleteAdvocate = async () => {
     try {
-      await axios.delete(`tc-crm.vercel.app/api/advocates/${selectedAdvocate._id}`, {
+      await axios.delete(`https://tc-crm.vercel.app/api/advocates/${selectedAdvocate._id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -143,7 +143,7 @@ const CreateAdvocate = ({ sidebarCollapsed }) => {
 
     try {
       await axios.patch(
-        `tc-crm.vercel.app/api/advocates/${selectedAdvocate._id}/reset-password`,
+        `https://tc-crm.vercel.app/api/advocates/${selectedAdvocate._id}/reset-password`,
         { password: newPassword },
         {
           headers: {
@@ -167,7 +167,7 @@ const CreateAdvocate = ({ sidebarCollapsed }) => {
 
     try {
       await axios.put(
-        `tc-crm.vercel.app/api/advocates/${selectedAdvocate._id}`,
+        `https://tc-crm.vercel.app/api/advocates/${selectedAdvocate._id}`,
         {
           name: formData.name,
           email: formData.email

@@ -52,7 +52,7 @@ const DocumentUploadModal = ({ isOpen, onClose, lead, onUploadSuccess, batchGovR
         if (files.poa) formData.append('poa', files.poa);
         if (files.ua) formData.append('ua', files.ua);
         const token = localStorage.getItem('token');
-        const response = await fetch(`tc-crm.vercel.app/api/leads/${lead._id}/upload-drafting`, {
+        const response = await fetch(`https://tc-crm.vercel.app/api/leads/${lead._id}/upload-drafting`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -95,7 +95,7 @@ const DocumentUploadModal = ({ isOpen, onClose, lead, onUploadSuccess, batchGovR
         });
       }
       const token = localStorage.getItem('token');
-      const response = await fetch(`tc-crm.vercel.app/api/leads/${lead._id}/upload`, {
+      const response = await fetch(`https://tc-crm.vercel.app/api/leads/${lead._id}/upload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

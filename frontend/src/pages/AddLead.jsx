@@ -34,7 +34,7 @@ const AddLead = ({ sidebarCollapsed }) => {
     setSubmitting(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('tc-crm.vercel.app/api/leads/led', {
+      await axios.post('https://tc-crm.vercel.app/api/leads/led', {
         mobileNumbers: [mobileNumber],
         brandName,
         additionalNotes

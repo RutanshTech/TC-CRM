@@ -6,7 +6,7 @@ async function testLeadDistribution() {
     
     // First, let's login to get a valid token
     console.log('1. Logging in to get token...');
-    const loginResponse = await axios.post('tc-crm.vercel.app/api/auth/login', {
+    const loginResponse = await axios.post('https://tc-crm.vercel.app/api/auth/login', {
       email: 'S.A@TMC.in',
       password: 'TMCR.24@25',
       role: 'super-admin'
@@ -23,7 +23,7 @@ async function testLeadDistribution() {
     };
     
     try {
-      const response1 = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData1, {
+      const response1 = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData1, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -44,7 +44,7 @@ async function testLeadDistribution() {
     };
     
     try {
-      const response2 = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData2, {
+      const response2 = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData2, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -65,7 +65,7 @@ async function testLeadDistribution() {
     };
     
     try {
-      const response3 = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData3, {
+      const response3 = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData3, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -86,7 +86,7 @@ async function testLeadDistribution() {
     };
     
     try {
-      const response4 = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData4, {
+      const response4 = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData4, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -107,7 +107,7 @@ async function testLeadDistribution() {
     };
     
     try {
-      const response5 = await axios.post('tc-crm.vercel.app/api/leads/distribute', testData5, {
+      const response5 = await axios.post('https://tc-crm.vercel.app/api/leads/distribute', testData5, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

@@ -6,7 +6,7 @@ async function testEmployeeLeadUpdate() {
     console.log('Testing employee lead update...');
     
     // First, login as an employee to get a token
-    const loginResponse = await axios.post('tc-crm.vercel.app/api/auth/login', {
+    const loginResponse = await axios.post('https://tc-crm.vercel.app/api/auth/login', {
       email: 'S.A@TMC.in', // Replace with actual employee email
       password: 'TMCR.24@25', // Replace with actual password
       role: 'employee'
@@ -17,7 +17,7 @@ async function testEmployeeLeadUpdate() {
     console.log('Login successful, user:', user);
     
     // Get the employee's leads
-    const leadsResponse = await axios.get('tc-crm.vercel.app/api/leads/my', {
+    const leadsResponse = await axios.get('https://tc-crm.vercel.app/api/leads/my', {
       headers: { Authorization: `Bearer ${token}` }
     });
     
@@ -39,7 +39,7 @@ async function testEmployeeLeadUpdate() {
     
     console.log('Sending update data:', updateData);
     
-    const updateResponse = await axios.put(`tc-crm.vercel.app/api/leads/${firstLead._id}/employee`, updateData, {
+    const updateResponse = await axios.put(`https://tc-crm.vercel.app/api/leads/${firstLead._id}/employee`, updateData, {
       headers: { 
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}` 

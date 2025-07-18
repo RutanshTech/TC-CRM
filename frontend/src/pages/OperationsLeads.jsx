@@ -34,7 +34,7 @@ const OperationsLeads = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('tc-crm.vercel.app/api/leads/all', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/all', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const allLeads = Array.isArray(res.data) ? res.data : res.data.leads || [];
@@ -55,7 +55,7 @@ const OperationsLeads = ({ sidebarCollapsed }) => {
   // Fetch all operation users for dropdown
   const fetchOperations = async () => {
     try {
-      const res = await axios.get('tc-crm.vercel.app/api/operations-basic');
+      const res = await axios.get('https://tc-crm.vercel.app/api/operations-basic');
       setOperations(res.data.operations || []);
     } catch (err) {
       toast.error('Failed to fetch Operations users');
@@ -107,7 +107,7 @@ const OperationsLeads = ({ sidebarCollapsed }) => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'tc-crm.vercel.app/api/leads/assign-to-operation',
+        'https://tc-crm.vercel.app/api/leads/assign-to-operation',
         { leadIds: selectedLeads, operationId: selectedOperation },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -298,8 +298,8 @@ const OperationsLeads = ({ sidebarCollapsed }) => {
               const token = localStorage.getItem('token');
               const isOperation = user && user.role === 'operation';
               const url = isOperation
-                ? `tc-crm.vercel.app/api/leads/${leadData._id}/operation`
-                : `tc-crm.vercel.app/api/leads/${leadData._id}`;
+                ? `https://tc-crm.vercel.app/api/leads/${leadData._id}/operation`
+                : `https://tc-crm.vercel.app/api/leads/${leadData._id}`;
               await axios.put(url, leadData, {
                 headers: { Authorization: `Bearer ${token}` },
               });

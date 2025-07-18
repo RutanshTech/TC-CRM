@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const BASE_URL = 'tc-crm.vercel.app/api';
+const BASE_URL = 'https://tc-crm.vercel.app/api';
 
 // Test data
 const testEmployee = {

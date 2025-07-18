@@ -30,7 +30,7 @@ const OperationsAllLeads = ({ sidebarCollapsed }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('tc-crm.vercel.app/api/leads/all', {
+      const res = await axios.get('https://tc-crm.vercel.app/api/leads/all', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const allLeads = Array.isArray(res.data) ? res.data : res.data.leads || [];
@@ -46,7 +46,7 @@ const OperationsAllLeads = ({ sidebarCollapsed }) => {
     setSelectedLeadForDetails(null);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`tc-crm.vercel.app/api/leads/${leadId}`, {
+      const res = await axios.get(`https://tc-crm.vercel.app/api/leads/${leadId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSelectedLeadForDetails(res.data);

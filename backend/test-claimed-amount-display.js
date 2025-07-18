@@ -11,7 +11,7 @@ async function testClaimedAmountDisplay() {
     // Test 1: Check if claimedAmount is included in payment responses
     console.log('1. Testing payment API responses include claimedAmount...');
     try {
-      const response = await axios.get('tc-crm.vercel.app/api/payments');
+      const response = await axios.get('https://tc-crm.vercel.app/api/payments');
       console.log('✅ Payment API includes claimedAmount field');
       
       if (response.data.payments && response.data.payments.length > 0) {
@@ -29,7 +29,7 @@ async function testClaimedAmountDisplay() {
     // Test 2: Check lead claims API
     console.log('\n2. Testing lead claims API...');
     try {
-      const response = await axios.get('tc-crm.vercel.app/api/leads/test-lead-id/claims');
+      const response = await axios.get('https://tc-crm.vercel.app/api/leads/test-lead-id/claims');
       console.log('✅ Lead claims API works');
       
       if (response.data.claims && response.data.claims.length > 0) {

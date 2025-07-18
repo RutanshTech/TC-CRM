@@ -11,7 +11,7 @@ function usePresence(employeeId) {
     
     // Set online on mount
     axios.patch(
-      'tc-crm.vercel.app/api/employees/status',
+      'https://tc-crm.vercel.app/api/employees/status',
       { status: 'online' },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -19,7 +19,7 @@ function usePresence(employeeId) {
     // Heartbeat every 2 min
     const interval = setInterval(() => {
       axios.patch(
-        'tc-crm.vercel.app/api/employees/status',
+        'https://tc-crm.vercel.app/api/employees/status',
         { status: 'online' },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -28,7 +28,7 @@ function usePresence(employeeId) {
     // Set offline on tab close
     const handleOffline = () => {
       navigator.sendBeacon(
-        'tc-crm.vercel.app/api/employees/status',
+        'https://tc-crm.vercel.app/api/employees/status',
         JSON.stringify({ status: 'offline' })
       );
     };
